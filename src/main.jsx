@@ -1,11 +1,13 @@
+import React, { useEffect, useState } from "react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Header from "./components/custom/Header";
-import LinkSaver from "./pages/LinkSaver";
+import BookmarkForm from "./pages/BookmarkForm";
 import { Toaster } from "sonner";
+import { Button } from "./components/ui/Button";
 
 const router = createBrowserRouter([
   {
@@ -13,14 +15,51 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "link-saver",
-    element: <LinkSaver />,
+    path: "bookmark-form",
+    element: <BookmarkForm />,
   },
 ]);
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Header />
-    <Toaster />
-    <RouterProvider router={router} />
-  </StrictMode>
-);
+
+function Root() {
+  const [darkMode, setDarkMode] = useState(() => {
+    return (
+      localStorage.getItem("theme") === "dark" ||
+      (!localStorage.getItem("theme") &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (darkMode) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
+
+  return (
+    <StrictMode>
+      {/* Global wrapper for background */}
+      <div className="min-h-screen bg-gray-50 dark:bg-stone-800 text-black dark:text-zinc-100 transition-colors duration-300">
+        {/* Dark mode toggle */}
+        <div className="absolute items-center gap-2 flex top-18 right-6 z-50">
+          <Button
+            onClick={() => setDarkMode(!darkMode)}
+            className="bg-black dark:bg-zinc-800 md:text-[17px] text-sm hover:bg-gray-600 dark:text-white  px-3 py-1 rounded"
+          >
+            {darkMode ? "☀️" : "🌙"}
+          </Button>
+        </div>
+
+        <Header />
+        <Toaster />
+        <RouterProvider router={router} />
+      </div>
+    </StrictMode>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<Root />);

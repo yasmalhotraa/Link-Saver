@@ -7,19 +7,29 @@ import {
   deleteUser,
 } from "firebase/auth";
 import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm"; // Import RegisterForm component
 import { toast } from "sonner";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { IoMdMenu } from "react-icons/io";
-import CustomConfirmationModal from "./CustomConfirmationModal"; // Import the custom modal
+import CustomConfirmationModal from "./CustomConfirmationModal";
+import { db } from "@/services/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 function Header() {
   const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showRegisterForm, setShowRegisterForm] = useState(false); // new state for register
   const [user, setUser] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State for showing confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -57,7 +67,7 @@ function Header() {
   };
 
   const handleDeleteAccount = async () => {
-    setShowDeleteModal(false); // Close the confirmation modal
+    setShowDeleteModal(false);
 
     try {
       const auth = getAuth();
@@ -67,9 +77,22 @@ function Header() {
         toast("No user is logged in.");
         return;
       }
+
+      // ✅ Step 1: Delete all bookmarks associated with the user
+      const q = query(
+        collection(db, "Links"),
+        where("userEmail", "==", currentUser.email)
+      );
+      const snapshot = await getDocs(q);
+      const deletePromises = snapshot.docs.map((docSnap) =>
+        deleteDoc(doc(db, "Links", docSnap.id))
+      );
+      await Promise.all(deletePromises);
+
+      // ✅ Step 2: Delete the user from Firebase Auth
       await deleteUser(currentUser);
 
-      // Clear localStorage and reset state
+      // ✅ Step 3: Clear local state and reload
       localStorage.clear();
       setUser(null);
 
@@ -94,24 +117,38 @@ function Header() {
     });
   };
 
+  const toggleRegisterForm = () => {
+    setShowRegisterForm((prevState) => {
+      const newState = !prevState;
+      document.body.style.overflow = newState ? "hidden" : "auto";
+      return newState;
+    });
+  };
+
   return (
-    <div className="p-3 shadow-md flex justify-between items-center px-5">
+    <div className="p-3 shadow-md flex justify-between items-center px-5 bg-white dark:bg-stone-900">
       <a href="/">
         <div className="flex gap-1 justify-center items-center">
-          <img src="/logo.svg" alt="logo" />
+          <h1 className="text-2xl">Link Saver</h1>
         </div>
       </a>
 
-      <div className="relative">
+      <div className="relative flex gap-2 items-center">
         {user ? (
           <div className="flex items-center gap-3">
             <Popover>
               <PopoverTrigger className="p-0 rounded-full">
                 <img
-                  src={user?.photoURL}
-                  className="w-[35px] h-[35px] rounded-full"
+                  src={user?.photoURL || "/placeholder-avatar.png"}
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop
+                    e.target.src = "/placeholder-avatar.png"; // Fallback image path
+                  }}
+                  className="w-[35px] h-[35px] rounded-full object-cover"
+                  alt="User Avatar"
                 />
               </PopoverTrigger>
+
               <PopoverContent>
                 <h2 className="font-semibold text-md max-600:text-sm">
                   {user?.displayName}
@@ -123,7 +160,7 @@ function Header() {
                   Sign Out
                 </Button>
                 <Button
-                  onClick={() => setShowDeleteModal(true)} // Open the confirmation modal
+                  onClick={() => setShowDeleteModal(true)}
                   className="cursor-pointer mt-2 bg-red-500 ml-2 text-white max-600:text-[13px]"
                 >
                   Delete Account
@@ -132,18 +169,21 @@ function Header() {
             </Popover>
           </div>
         ) : (
-          <Button onClick={toggleLoginForm}>Sign In</Button>
+          <>
+            <Button onClick={toggleRegisterForm}>Register</Button>
+            <Button onClick={toggleLoginForm}>Sign In</Button>
+          </>
         )}
       </div>
 
       {showLoginForm && <LoginForm onClose={toggleLoginForm} />}
+      {showRegisterForm && <RegisterForm onClose={toggleRegisterForm} />}
 
-      {/* Custom Confirmation Modal */}
       {showDeleteModal && (
         <CustomConfirmationModal
           message="Are you sure you want to delete your account? This action is irreversible."
           onConfirm={handleDeleteAccount}
-          onCancel={() => setShowDeleteModal(false)} // Close the modal
+          onCancel={() => setShowDeleteModal(false)}
         />
       )}
     </div>

@@ -44,6 +44,33 @@ function LoginForm({ onClose }) {
           Please Sign in to the App
         </h2>
 
+        {/* Email input */}
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="mb-3 w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500"
+        />
+
+        {/* Password input */}
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="mb-4 w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500"
+        />
+
+        {/* Email/Password Login Button */}
+        <button
+          onClick={handleEmailLogin}
+          className="w-full bg-red-500 hover:bg-red-400 text-white py-2 rounded-full mb-4"
+        >
+          Sign In with Email
+        </button>
+
+        {/* Google Login Button */}
         <button
           onClick={handleGoogleLogin}
           className="w-full flex items-center justify-center gap-2 bg-red-500 hover:bg-red-400 text-white py-2 rounded-full"
