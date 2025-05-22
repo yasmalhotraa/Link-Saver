@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAS5KMOLKMXWZLlny2CrXueif7iewH0K0U",
+  apiKey: import.meta.env.FIREBASE_API_KEY,
   authDomain: "linksaver-46235.firebaseapp.com",
   projectId: "linksaver-46235",
   storageBucket: "linksaver-46235.firebasestorage.app",
