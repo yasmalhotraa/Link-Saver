@@ -1,5 +1,9 @@
 # 🔖 Link Saver + Auto-Summary App
 
+## 🌐 Live Demo
+
+https://bookmark-buddy-yash.vercel.app/
+
 A sleek, full-stack bookmark manager built with **React (Vite)** and **Firebase**. Users can save, delete, and drag-to-reorder bookmarks — each with an auto-generated summary. Includes **light/dark mode**, authentication, and is fully responsive.
 
 ## 🚀 Tech Stack
@@ -66,13 +70,11 @@ npm run build
 
 ✅ Drag & Drop to reorder bookmarks (DnD Kit)
 
-✅ Delete bookmarks with confirmation modal
-
 ✅ Light / Dark mode toggle
 
 ✅ Fully responsive design (mobile + desktop)
 
-💡 What I'd Do Next
+## 💡 What I'd Do Next
 🔐 Add OAuth options (Google/GitHub login)
 
 📄 Improve summary generation with AI
@@ -83,9 +85,7 @@ npm run build
 
 📊 Add analytics dashboard for user activity
 
-⏱ Time Spent
+## ⏱ Time Spent
 Approx. 10 Hours (including UI design, Firebase integration, and Everything)
 
-🌐 Live Demo
 
-https://bookmark-buddy-yash.vercel.app/
