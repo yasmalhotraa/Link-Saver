@@ -86,6 +86,6 @@ npm run build
 📊 Add analytics dashboard for user activity
 
 ## ⏱ Time Spent
-Approx. 10 Hours (including UI design, Firebase integration, and Everything)
+Approx. 10 Hours (including UI design, Firebase integration, Fetching data, Jina AI summary, and Everything)
 
 
