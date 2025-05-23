@@ -96,14 +96,3 @@ Copy
 Edit
 
 
-## 📸 Screenshots
-
-### HomePage
-<img src="src/assets/Screenshot1"/>
-
-### 🏠 Bookmark Dashboard
-![Dashboard](src/assets/dashboard.png)
-
-### 🌙 Dark Mode Enabled
-![Dark Mode](src/assets/darkmode.png)
-
