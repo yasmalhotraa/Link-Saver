@@ -48,24 +48,46 @@ function BookmarkForm() {
 
   const fetchMetadata = async (targetUrl) => {
     const API_KEY = "55e86184-6fde-46b7-bd15-d8e6a9b9e73a";
-    const apiUrl = `https://opengraph.io/api/1.1/site/${encodeURIComponent(
+    const OPEN_GRAPH_URL = `https://opengraph.io/api/1.1/site/${encodeURIComponent(
       targetUrl
     )}?app_id=${API_KEY}`;
+    const JINA_API_URL = "https://r.jina.ai/";
 
     try {
       setLoading(true);
-      const response = await fetch(apiUrl);
-      const data = await response.json();
+
+      const [ogRes, jinaRes] = await Promise.all([
+        fetch(OPEN_GRAPH_URL),
+        fetch(`${JINA_API_URL}${targetUrl}`),
+      ]);
+
+      const ogData = await ogRes.json();
+
+      let jinaText = await jinaRes.text();
+
+      // Clean markdown/images/links safely
+      jinaText = jinaText
+        .replace(/!\[.*?\]\(.*?\)/g, "") // Remove images
+        .replace(/\[([^\]]+)\]\((.*?)\)/g, "$1") // Simplify links to just text
+        .replace(/[#*=_>`-]/g, "") // Remove special markdown characters
+        .replace(/\s+/g, " ") // Collapse extra whitespace
+        .trim();
+
+      const summary =
+        jinaText.slice(0, 170) + (jinaText.length > 170 ? "..." : "");
+
       setLoading(false);
 
       return {
-        title: data.hybridGraph?.title || "No title",
-        favicon: data.hybridGraph?.favicon || `${targetUrl}/favicon.ico`,
-        link: data.hybridGraph?.url || targetUrl,
+        title: ogData.hybridGraph?.title || "No title",
+        favicon: ogData.hybridGraph?.favicon || `${targetUrl}/favicon.ico`,
+        link: ogData.hybridGraph?.url || targetUrl,
+        summary,
       };
     } catch (error) {
       setLoading(false);
-      alert("Could not fetch metadata.");
+      console.error("Error fetching metadata:", error);
+      toast.error("Could not fetch metadata.");
       return null;
     }
   };
@@ -179,9 +201,8 @@ function BookmarkForm() {
                     </a>
                   </div>
                   <div>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Ad vero odio rem, ut consequatur sequi quas numquam
+                    <p className="mt-2 sm:w-100 max-w-100 overflow-hidden text-gray-600 dark:text-gray-300 text-sm">
+                      {b.summary || "No summary available."}
                     </p>
                   </div>
                 </div>
