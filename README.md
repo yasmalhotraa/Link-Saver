@@ -1,10 +1,11 @@
 # 🔖 Link Saver + Auto-Summary App
 
-## 🌐 Live Demo
+🌐 **Live Demo**  
+👉 [https://bookmark-buddy-yash.vercel.app/](https://bookmark-buddy-yash.vercel.app/)
 
-https://bookmark-buddy-yash.vercel.app/
+A sleek, full-stack bookmark manager built with **React (Vite)** and **Firebase**. Users can save, delete, and drag-to-reorder bookmarks — each with an auto-generated summary. Includes **light/dark mode**, **authentication**, and is **fully responsive**.
 
-A sleek, full-stack bookmark manager built with **React (Vite)** and **Firebase**. Users can save, delete, and drag-to-reorder bookmarks — each with an auto-generated summary. Includes **light/dark mode**, authentication, and is fully responsive.
+---
 
 ## 🚀 Tech Stack
 
@@ -30,7 +31,7 @@ bash
 Copy
 Edit
 npm install
-### Set up Firebase
+Set up Firebase
 
 Go to Firebase Console
 
@@ -40,7 +41,7 @@ Email/Password Authentication
 
 Cloud Firestore
 
-Copy your Firebase config and paste it into a .env file:
+Copy your Firebase config and create a .env file in the root directory:
 
 env
 Copy
@@ -74,18 +75,22 @@ npm run build
 
 ✅ Fully responsive design (mobile + desktop)
 
-## 💡 What I'd Do Next
+✅ Confirmation modals and user-friendly UI
+
+💡 What I'd Do Next
 🔐 Add OAuth options (Google/GitHub login)
 
-📄 Improve summary generation with AI
+📄 Improve summary generation with AI (e.g. OpenAI API)
 
 🔍 Implement tag-based filtering or search
 
-🧪 Add unit & integration tests with Vitest
+🧪 Add unit & integration tests using Vitest
 
 📊 Add analytics dashboard for user activity
 
-## ⏱ Time Spent
-Approx. 10 Hours (including UI design, Firebase integration, Fetching data, Jina AI summary, and Everything)
+⏱ Time Spent
+~10 hours total, including UI design, Firebase integration, drag-and-drop logic, and polishing features.
 
-
+less
+Copy
+Edit
