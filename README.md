@@ -1,13 +1,67 @@
-# React + Vite
+# 🔖 Link Saver + Auto-Summary
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web app that allows users to register/login, save bookmarks with auto-generated summaries, and rearrange them via drag-and-drop—all with light/dark theme support.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend**: React (with Vite)
+- **Styling**: Tailwind CSS + Dark/Light mode support
+- **State Management**: useState + useEffect hooks
+- **Drag and Drop**: DnD Kit (`@dnd-kit/sortable`)
+- **Authentication**: Firebase Auth
+- **Database**: Firebase Firestore
+- **Hosting**: Vercel
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Link-Saver
+---
+
+## 🛠️ Setup Instructions
+
+1. **Clone the repo**:
+   ```bash
+   git clone https://github.com/your-username/link-saver.git
+   cd link-saver
+Install dependencies:
+
+bash
+Copy
+Edit
+npm install
+Setup Firebase:
+
+Create a Firebase project at Firebase Console
+
+Enable Authentication (Email/Password)
+
+Create a Firestore database
+
+Run the project:
+
+bash
+Copy
+Edit
+npm run dev
+Build for production:
+
+bash
+Copy
+Edit
+npm run build
+🌗 Features
+🔐 User authentication (Register/Login with Firebase)
+
+🌐 Bookmark saving with auto-summary preview
+
+✨ Drag-and-drop to reorder bookmarks using DnD Kit
+
+🌓 Light and dark theme toggle
+
+🧼 Clean, responsive UI
+
+🚫 Confirmation modal for deleting bookmarks
+
+🔄 Real-time database sync with Firestore
+
+🔥 Hosted live on Vercel
+
