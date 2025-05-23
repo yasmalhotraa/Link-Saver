@@ -7,7 +7,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Header from "./components/custom/Header";
 import BookmarkForm from "./pages/BookmarkForm";
 import { Toaster } from "sonner";
-import { Button } from "./components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 const router = createBrowserRouter([
   {
