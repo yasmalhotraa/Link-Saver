@@ -126,9 +126,9 @@ function Header() {
   };
 
   return (
-    <div className="p-3 shadow-md flex justify-between items-center px-5 bg-white dark:bg-stone-900">
+    <div className="fixed top-0 left-0 w-full z-50 p-3 shadow-md flex justify-between items-center px-5 bg-[#f3eadf] dark:bg-stone-900">
       <a href="/">
-        <div className="flex gap-1 justify-center items-center">
+        <div className="flex gap-1 font-extrabold justify-center items-center">
           <h1 className="text-2xl">Link Saver</h1>
         </div>
       </a>
@@ -140,15 +140,14 @@ function Header() {
               <PopoverTrigger className="p-0 rounded-full">
                 <img
                   src={user?.photoURL || "/placeholder-avatar.png"}
-                  onError={(e) => {
-                    e.target.onerror = null; // Prevent infinite loop
-                    e.target.src = "/placeholder-avatar.png"; // Fallback image path
-                  }}
-                  className="w-[35px] h-[35px] rounded-full object-cover"
+                  className="w-[35px] h-[35px] rounded-full"
                   alt="User Avatar"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null; // prevent infinite fallback loop
+                    e.currentTarget.src = "/placeholder-avatar.png";
+                  }}
                 />
               </PopoverTrigger>
-
               <PopoverContent>
                 <h2 className="font-semibold text-md max-600:text-sm">
                   {user?.displayName}

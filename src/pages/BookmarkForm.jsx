@@ -103,93 +103,104 @@ function BookmarkForm() {
     if (bookmark) {
       const id = await saveBookmark(bookmark);
       if (id) {
-        setBookmarks((prev) => [...prev, { ...bookmark, id, userEmail }]);
+        setBookmarks((prev) => [{ ...bookmark, id, userEmail }, ...prev]);
       }
+
       setUrl("");
     }
   };
 
   return (
-    <div className="max-w-full sm:max-w-xl mx-auto mt-18 p-4 sm:p-6 border rounded shadow">
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
-        <input
-          type="url"
-          placeholder="Paste URL here"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          required
-          className="flex-grow p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="mt-2 sm:mt-0 sm:ml-2 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+    <div className="sm:py-5 py-2 px-3 mt-15">
+      <div className="max-w-full sm:max-w-xl mx-auto py-14 px-2 sm:p-6 sm:py-5 border border-gray-400 rounded shadow">
+        <form
+          onSubmit={handleSubmit}
+          className="flex  flex-col sm:flex-row gap-2"
         >
-          {loading ? "Fetching..." : "Save Bookmark"}
-        </button>
-      </form>
+          <input
+            type="url"
+            placeholder="Paste URL here"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            required
+            className="flex-grow p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-2 sm:mt-0 sm:ml-2 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Fetching..." : "Save Bookmark"}
+          </button>
+        </form>
 
-      {loadingBookmarks ? (
-        <ul className="mt-6 space-y-4">
-          {Array(4)
-            .fill(0)
-            .map((_, i) => (
+        {loadingBookmarks ? (
+          <ul className="mt-6 space-y-4">
+            {Array(4)
+              .fill(0)
+              .map((_, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-4 p-4 bg-gray-100 rounded"
+                >
+                  <Skeleton className="w-12 h-12 rounded" />
+                  <Skeleton className="h-6 w-3/4 rounded" />
+                </li>
+              ))}
+          </ul>
+        ) : bookmarks.length > 0 ? (
+          <ul className="mt-6 space-y-4">
+            {bookmarks.map((b) => (
               <li
-                key={i}
-                className="flex items-center gap-4 p-4 bg-gray-100 rounded"
+                key={b.id}
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-[#f3eadf] rounded hover:shadow dark:bg-stone-900"
               >
-                <Skeleton className="w-12 h-12 rounded" />
-                <Skeleton className="h-6 w-3/4 rounded" />
+                <div>
+                  <div>
+                    <a
+                      href={b.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 w-full text-black dark:text-white no-underline"
+                    >
+                      <img
+                        src={b.favicon || "/placeholder-favicon.png"}
+                        alt="favicon"
+                        className="w-10 h-10 p-1 dark:bg-white sm:w-12 sm:h-12 rounded object-contain"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = "/placeholder-favicon.png";
+                        }}
+                      />
+
+                      <h3 className="text-base sm:text-lg font-semibold break-words">
+                        {b.title}
+                      </h3>
+                    </a>
+                  </div>
+                  <div>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Ad vero odio rem, ut consequatur sequi quas numquam
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    onClick={() => deleteBookmark(b.id)}
+                    className="mt-2 sm:mt-0 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                    aria-label={`Delete bookmark ${b.title}`}
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             ))}
-        </ul>
-      ) : bookmarks.length > 0 ? (
-        <ul className="mt-6 space-y-4">
-          {bookmarks.map((b) => (
-            <li
-              key={b.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-gray-100 rounded hover:shadow dark:bg-black"
-            >
-              <div>
-                <div>
-                  <a
-                    href={b.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 w-full text-black dark:text-white no-underline"
-                  >
-                    <img
-                      src={b.favicon}
-                      alt="favicon"
-                      className="w-10 h-10 dark:bg-white p-1 sm:w-12 sm:h-12 rounded object-contain"
-                    />
-                    <h3 className="text-base sm:text-lg font-semibold break-words">
-                      {b.title}
-                    </h3>
-                  </a>
-                </div>
-                <div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad
-                    vero odio rem, ut consequatur sequi quas numquam
-                  </p>
-                </div>
-              </div>
-              <div>
-                <button
-                  onClick={() => deleteBookmark(b.id)}
-                  className="mt-2 sm:mt-0 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                  aria-label={`Delete bookmark ${b.title}`}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="mt-6 text-center text-gray-500">No bookmarks Saved.</p>
-      )}
+          </ul>
+        ) : (
+          <p className="mt-6 text-center text-gray-500">No bookmarks Saved.</p>
+        )}
+      </div>
     </div>
   );
 }

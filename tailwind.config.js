@@ -1,9 +1,16 @@
-// tailwind.config.js
 export default {
-  darkMode: "class", // ✅ Required to enable 'dark:' class toggling
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backdropBlur: {
+        sm: "4px",
+        DEFAULT: "8px",
+        md: "12px",
+        lg: "16px",
+        xl: "24px",
+      },
+    },
   },
   plugins: [],
 };
