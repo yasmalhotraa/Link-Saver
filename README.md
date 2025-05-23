@@ -1,67 +1,179 @@
-# 🔖 Link Saver + Auto-Summary
+# 🔖 Link Saver + Auto-Summary App
 
-A modern web app that allows users to register/login, save bookmarks with auto-generated summaries, and rearrange them via drag-and-drop—all with light/dark theme support.
-
----
+A sleek, full-stack bookmark manager built with **React (Vite)** and **Firebase**. Users can save, delete, and drag-to-reorder bookmarks — each with an auto-generated summary. Includes **light/dark mode**, authentication, and is fully responsive.
 
 ## 🚀 Tech Stack
 
-- **Frontend**: React (with Vite)
-- **Styling**: Tailwind CSS + Dark/Light mode support
-- **State Management**: useState + useEffect hooks
-- **Drag and Drop**: DnD Kit (`@dnd-kit/sortable`)
-- **Authentication**: Firebase Auth
-- **Database**: Firebase Firestore
-- **Hosting**: Vercel
+- **Frontend**: React (Vite), Tailwind CSS, ShadCN/UI, React Icons  
+- **Backend**: Firebase Authentication + Firestore Database  
+- **Drag & Drop**: @dnd-kit  
+- **Notifications**: Sonner  
+- **Hosting**: Vercel  
+- **Other**: Light/Dark mode toggle, responsive UI
 
 ---
 
-## 🛠️ Setup Instructions
+## ⚙️ Setup Instructions
 
-1. **Clone the repo**:
+1. **Clone the repo**
+
    ```bash
    git clone https://github.com/your-username/link-saver.git
    cd link-saver
-Install dependencies:
+Install dependencies
 
 bash
 Copy
 Edit
 npm install
-Setup Firebase:
+Set up Firebase
 
-Create a Firebase project at Firebase Console
+Go to Firebase Console
 
-Enable Authentication (Email/Password)
+Create a project and enable:
 
-Create a Firestore database
+Email/Password Authentication
 
-Run the project:
+Cloud Firestore
+
+Copy your Firebase config and paste it into a .env file:
+
+env
+Copy
+Edit
+VITE_FIREBASE_API_KEY=your_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+Run the project locally
 
 bash
 Copy
 Edit
 npm run dev
-Build for production:
+Build for production
 
 bash
 Copy
 Edit
 npm run build
-🌗 Features
-🔐 User authentication (Register/Login with Firebase)
+✨ Features
+✅ User Registration + Login with Firebase Auth
 
-🌐 Bookmark saving with auto-summary preview
+✅ Save bookmarks with favicon, title & auto-summary
 
-✨ Drag-and-drop to reorder bookmarks using DnD Kit
+✅ Drag & Drop to reorder bookmarks (DnD Kit)
 
-🌓 Light and dark theme toggle
+✅ Delete bookmarks with confirmation modal
 
-🧼 Clean, responsive UI
+✅ Light / Dark mode toggle
 
-🚫 Confirmation modal for deleting bookmarks
+✅ Fully responsive design (mobile + desktop)
 
-🔄 Real-time database sync with Firestore
+💡 What I'd Do Next
+🔐 Add OAuth options (Google/GitHub login)
 
-🔥 Hosted live on Vercel
+📄 Improve summary generation with AI
 
+🔍 Implement tag-based filtering or search
+
+🧪 Add unit & integration tests with Vitest
+
+📊 Add analytics dashboard for user activity
+
+⏱ Time Spent
+Approx. 1.5–2 days (including UI design, Firebase integration, and DnD logic)
+
+🌐 Live Demo
+# 🔖 Link Saver + Auto-Summary App
+
+A sleek, full-stack bookmark manager built with **React (Vite)** and **Firebase**. Users can save, delete, and drag-to-reorder bookmarks — each with an auto-generated summary. Includes **light/dark mode**, authentication, and is fully responsive.
+
+## 🚀 Tech Stack
+
+- **Frontend**: React (Vite), Tailwind CSS, ShadCN/UI, React Icons  
+- **Backend**: Firebase Authentication + Firestore Database  
+- **Drag & Drop**: @dnd-kit  
+- **Notifications**: Sonner  
+- **Hosting**: Vercel  
+- **Other**: Light/Dark mode toggle, responsive UI
+
+---
+
+## ⚙️ Setup Instructions
+
+1. **Clone the repo**
+
+   ```bash
+   git clone https://github.com/your-username/link-saver.git
+   cd link-saver
+Install dependencies
+
+bash
+Copy
+Edit
+npm install
+Set up Firebase
+
+Go to Firebase Console
+
+Create a project and enable:
+
+Email/Password Authentication
+
+Cloud Firestore
+
+Copy your Firebase config and paste it into a .env file:
+
+env
+Copy
+Edit
+VITE_FIREBASE_API_KEY=your_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+Run the project locally
+
+bash
+Copy
+Edit
+npm run dev
+Build for production
+
+bash
+Copy
+Edit
+npm run build
+✨ Features
+✅ User Registration + Login with Firebase Auth
+
+✅ Save bookmarks with favicon, title & auto-summary
+
+✅ Drag & Drop to reorder bookmarks (DnD Kit)
+
+✅ Delete bookmarks with confirmation modal
+
+✅ Light / Dark mode toggle
+
+✅ Fully responsive design (mobile + desktop)
+
+💡 What I'd Do Next
+🔐 Add OAuth options (Google/GitHub login)
+
+📄 Improve summary generation with AI
+
+🔍 Implement tag-based filtering or search
+
+🧪 Add unit & integration tests with Vitest
+
+📊 Add analytics dashboard for user activity
+
+⏱ Time Spent
+Approx. 1.5–2 days (including UI design, Firebase integration, and DnD logic)
+
+🌐 Live Demo
+https://bookmark-buddy-yash.vercel.app/
