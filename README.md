@@ -99,7 +99,7 @@ Edit
 ## 📸 Screenshots
 
 ### HomePage
-![Home Page](src/assets/Screenshot1)
+<img src="src/assets/Screenshot1"/>
 
 ### 🏠 Bookmark Dashboard
 ![Dashboard](src/assets/dashboard.png)
