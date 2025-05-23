@@ -94,3 +94,16 @@ npm run build
 less
 Copy
 Edit
+
+
+## 📸 Screenshots
+
+### HomePage
+![Home Page](src/assets/Screenshot1)
+
+### 🏠 Bookmark Dashboard
+![Dashboard](src/assets/dashboard.png)
+
+### 🌙 Dark Mode Enabled
+![Dark Mode](src/assets/darkmode.png)
+
