@@ -76,7 +76,7 @@ function BookmarkForm() {
   };
 
   const fetchMetadata = async (targetUrl) => {
-    const API_KEY = "55e86184-6fde-46b7-bd15-d8e6a9b9e73a";
+    const API_KEY = import.meta.env.VITE_OPEN_GRAPH_API_KEY;
     const OPEN_GRAPH_URL = `https://opengraph.io/api/1.1/site/${encodeURIComponent(
       targetUrl
     )}?app_id=${API_KEY}`;

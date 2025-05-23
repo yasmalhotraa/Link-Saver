@@ -1,7 +1,6 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { MdDragIndicator } from "react-icons/md";
 import { RiDragMove2Fill } from "react-icons/ri";
 
 export default function SortableItem({ bookmark, deleteBookmark }) {
