@@ -129,7 +129,7 @@ function Header() {
     <div className="fixed top-0 left-0 w-full z-50 p-3 shadow-md flex justify-between items-center px-5 bg-[#f3eadf] dark:bg-stone-900">
       <a href="/">
         <div className="flex gap-1 font-extrabold justify-center items-center">
-          <h1 className="text-2xl">BookmarkBuddy</h1>
+          <h1 className="md:text-2xl text-l">BookmarkBuddy</h1>
         </div>
       </a>
 
@@ -169,8 +169,12 @@ function Header() {
           </div>
         ) : (
           <>
-            <Button onClick={toggleRegisterForm}>Register</Button>
-            <Button onClick={toggleLoginForm}>Sign In</Button>
+            <Button className={"md:w-20 w-15"} onClick={toggleRegisterForm}>
+              Register
+            </Button>
+            <Button className={"md:w-20 w-15"} onClick={toggleLoginForm}>
+              Sign In
+            </Button>
           </>
         )}
       </div>

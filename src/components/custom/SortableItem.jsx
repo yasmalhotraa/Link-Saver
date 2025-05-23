@@ -48,7 +48,7 @@ export default function SortableItem({ bookmark, deleteBookmark }) {
             {bookmark.title}
           </h3>
         </a>
-        <p className="mt-2 overflow-hidden w-90 max-w-100 text-gray-600 dark:text-gray-300 text-sm">
+        <p className="mt-2 overflow-hidden w-70 max-w-75 md:w-90 md:max-w-100 text-gray-600 dark:text-gray-300 text-sm">
           {bookmark.summary || "No summary available."}
         </p>
       </div>
