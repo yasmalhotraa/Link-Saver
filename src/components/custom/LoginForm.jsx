@@ -34,9 +34,8 @@ function LoginForm({ onClose }) {
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
       <div className="bg-[#f3eadf] dark:bg-stone-800 p-5 rounded-2xl shadow-md w-96 ">
         <div className="flex gap-1 mb-5 items-center">
-          <h2 className="font-extrabold text-2xl text-blue-600">
-            <span>Link</span>
-            <span>Saver</span>
+          <h2 className="font-extrabold text-2xl text-white">
+            <span>BookmarkBuddy</span>
           </h2>
         </div>
         <h2 className="text-[18px] text-gray-600 dark:text-gray-300 font-bold mb-3 mx-2">
