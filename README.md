@@ -26,7 +26,7 @@ bash
 Copy
 Edit
 npm install
-Set up Firebase
+### Set up Firebase
 
 Go to Firebase Console
 
