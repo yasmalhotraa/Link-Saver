@@ -4,7 +4,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { RiDragMove2Fill } from "react-icons/ri";
 
 export default function SortableItem({ bookmark, deleteBookmark }) {
-  // Use handle to restrict drag start only to the drag handle element
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: bookmark.id, handle: true });
 

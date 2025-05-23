@@ -14,7 +14,7 @@ function LoginForm({ onClose }) {
     try {
       await doSignInWithEmailAndPassword(email, password);
       toast("Logged in successfully!");
-      onClose(); // Close the form after successful login
+      onClose(); //used this to close the form after completing login
     } catch (error) {
       toast(error.message);
     }
@@ -24,7 +24,7 @@ function LoginForm({ onClose }) {
     try {
       await doSignInWithGoogle();
       toast("Logged in with Google!");
-      onClose(); // Close the form after successful login
+      onClose();
     } catch (error) {
       toast(error.message);
     }
@@ -43,7 +43,7 @@ function LoginForm({ onClose }) {
           Please Sign in to the App
         </h2>
 
-        {/* Email input */}
+        {/* Email*/}
         <input
           type="email"
           placeholder="Email"
@@ -52,7 +52,7 @@ function LoginForm({ onClose }) {
           className="mb-3 w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
-        {/* Password input */}
+        {/* Password*/}
         <input
           type="password"
           placeholder="Password"

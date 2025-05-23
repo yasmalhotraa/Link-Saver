@@ -7,7 +7,7 @@ import {
   deleteUser,
 } from "firebase/auth";
 import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm"; // Import RegisterForm component
+import RegisterForm from "./RegisterForm";
 import { toast } from "sonner";
 import {
   Popover,
@@ -27,7 +27,7 @@ import {
 
 function Header() {
   const [showLoginForm, setShowLoginForm] = useState(false);
-  const [showRegisterForm, setShowRegisterForm] = useState(false); // new state for register
+  const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [user, setUser] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -78,7 +78,7 @@ function Header() {
         return;
       }
 
-      // ✅ Step 1: Delete all bookmarks associated with the user
+      //Deleting all data associated to the user
       const q = query(
         collection(db, "Links"),
         where("userEmail", "==", currentUser.email)
@@ -89,10 +89,10 @@ function Header() {
       );
       await Promise.all(deletePromises);
 
-      // ✅ Step 2: Delete the user from Firebase Auth
+      //Deleting user from firebase Auth
       await deleteUser(currentUser);
 
-      // ✅ Step 3: Clear local state and reload
+      //Clearing local Storage and reloading
       localStorage.clear();
       setUser(null);
 
@@ -129,7 +129,7 @@ function Header() {
     <div className="fixed top-0 left-0 w-full z-50 p-3 shadow-md flex justify-between items-center px-5 bg-[#f3eadf] dark:bg-stone-900">
       <a href="/">
         <div className="flex gap-1 font-extrabold justify-center items-center">
-          <h1 className="text-2xl">Link Saver</h1>
+          <h1 className="text-2xl">BookmarkBuddy</h1>
         </div>
       </a>
 
@@ -143,7 +143,7 @@ function Header() {
                   className="w-[35px] h-[35px] rounded-full"
                   alt="User Avatar"
                   onError={(e) => {
-                    e.currentTarget.onerror = null; // prevent infinite fallback loop
+                    e.currentTarget.onerror = null;
                     e.currentTarget.src = "/placeholder-avatar.png";
                   }}
                 />

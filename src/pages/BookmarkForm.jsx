@@ -47,7 +47,7 @@ function BookmarkForm() {
     if (user?.email) {
       setUserEmail(user.email);
 
-      // Load bookmarks order from localStorage if available
+      // Loading bookmarks from local storage
       const savedOrder = localStorage.getItem("bookmarksOrder");
       if (savedOrder) {
         setBookmarks(JSON.parse(savedOrder));
@@ -133,7 +133,7 @@ function BookmarkForm() {
       await deleteDoc(doc(db, "Links", id));
       setBookmarks((prev) => prev.filter((bookmark) => bookmark.id !== id));
       toast.success("Bookmark deleted");
-      // Also update localStorage after delete
+      // updating localStorage after delete
       const updatedBookmarks = bookmarks.filter((b) => b.id !== id);
       localStorage.setItem("bookmarksOrder", JSON.stringify(updatedBookmarks));
     } catch (error) {
