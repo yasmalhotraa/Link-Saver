@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { toast } from "sonner";
-import { Button } from "../ui/Button";
+import { Button } from "../ui/button";
 
 function RegisterForm({ onClose }) {
   const [email, setEmail] = useState("");
