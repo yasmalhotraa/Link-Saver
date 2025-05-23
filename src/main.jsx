@@ -43,7 +43,7 @@ function Root() {
   return (
     <StrictMode>
       {/* Global wrapper for background */}
-      <div className="min-h-screen bg-[#fffef4] dark:bg-stone-800 text-black dark:text-zinc-100 transition-colors duration-300">
+      <div className="min-h-screen w-full max-w-screen bg-[#fffef4]  dark:bg-stone-800 text-black dark:text-zinc-100 transition-colors duration-300">
         {/* Dark mode toggle */}
         <div className="absolute items-center gap-2 flex top-18 right-4 z-50">
           <Button

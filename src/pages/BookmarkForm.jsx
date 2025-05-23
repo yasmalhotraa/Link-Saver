@@ -13,6 +13,22 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  KeyboardSensor,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
+import SortableItem from "@/components/custom/SortableItem";
+
 function BookmarkForm() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,11 +37,24 @@ function BookmarkForm() {
   const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor)
+  );
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user?.email) {
       setUserEmail(user.email);
-      loadBookmarks(user.email);
+
+      // Load bookmarks order from localStorage if available
+      const savedOrder = localStorage.getItem("bookmarksOrder");
+      if (savedOrder) {
+        setBookmarks(JSON.parse(savedOrder));
+        setLoadingBookmarks(false);
+      } else {
+        loadBookmarks(user.email);
+      }
     } else {
       toast("Register or Sign in first to start");
       navigate("/");
@@ -62,21 +91,17 @@ function BookmarkForm() {
       ]);
 
       const ogData = await ogRes.json();
-
       let jinaText = await jinaRes.text();
 
-      // Clean markdown/images/links safely
       jinaText = jinaText
-        .replace(/!\[.*?\]\(.*?\)/g, "") // Remove images
-        .replace(/\[([^\]]+)\]\((.*?)\)/g, "$1") // Simplify links to just text
-        .replace(/[#*=_>`-]/g, "") // Remove special markdown characters
-        .replace(/\s+/g, " ") // Collapse extra whitespace
+        .replace(/!\[.*?\]\(.*?\)/g, "")
+        .replace(/\[([^\]]+)\]\((.*?)\)/g, "$1")
+        .replace(/[#*=_>`-]/g, "")
+        .replace(/\s+/g, " ")
         .trim();
 
       const summary =
         jinaText.slice(0, 170) + (jinaText.length > 170 ? "..." : "");
-
-      setLoading(false);
 
       return {
         title: ogData.hybridGraph?.title || "No title",
@@ -85,10 +110,10 @@ function BookmarkForm() {
         summary,
       };
     } catch (error) {
-      setLoading(false);
-      console.error("Error fetching metadata:", error);
       toast.error("Could not fetch metadata.");
       return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,8 +133,10 @@ function BookmarkForm() {
       await deleteDoc(doc(db, "Links", id));
       setBookmarks((prev) => prev.filter((bookmark) => bookmark.id !== id));
       toast.success("Bookmark deleted");
+      // Also update localStorage after delete
+      const updatedBookmarks = bookmarks.filter((b) => b.id !== id);
+      localStorage.setItem("bookmarksOrder", JSON.stringify(updatedBookmarks));
     } catch (error) {
-      console.error("Error deleting bookmark:", error);
       toast.error("Failed to delete bookmark");
     }
   };
@@ -125,10 +152,24 @@ function BookmarkForm() {
     if (bookmark) {
       const id = await saveBookmark(bookmark);
       if (id) {
-        setBookmarks((prev) => [{ ...bookmark, id, userEmail }, ...prev]);
+        const newBookmarks = [{ ...bookmark, id, userEmail }, ...bookmarks];
+        setBookmarks(newBookmarks);
+        // Save updated bookmarks to localStorage
+        localStorage.setItem("bookmarksOrder", JSON.stringify(newBookmarks));
       }
-
       setUrl("");
+    }
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      const oldIndex = bookmarks.findIndex((b) => b.id === active.id);
+      const newIndex = bookmarks.findIndex((b) => b.id === over.id);
+      const newOrder = arrayMove(bookmarks, oldIndex, newIndex);
+      setBookmarks(newOrder);
+      // Save the new order to localStorage
+      localStorage.setItem("bookmarksOrder", JSON.stringify(newOrder));
     }
   };
 
@@ -137,7 +178,7 @@ function BookmarkForm() {
       <div className="max-w-full sm:max-w-xl mx-auto py-14 px-2 sm:p-6 sm:py-5 border border-gray-400 rounded shadow">
         <form
           onSubmit={handleSubmit}
-          className="flex  flex-col sm:flex-row gap-2"
+          className="flex flex-col sm:flex-row gap-2"
         >
           <input
             type="url"
@@ -171,55 +212,28 @@ function BookmarkForm() {
               ))}
           </ul>
         ) : bookmarks.length > 0 ? (
-          <ul className="mt-6 space-y-4">
-            {bookmarks.map((b) => (
-              <li
-                key={b.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-[#f3eadf] rounded hover:shadow dark:bg-stone-900"
-              >
-                <div>
-                  <div>
-                    <a
-                      href={b.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 w-full text-black dark:text-white no-underline"
-                    >
-                      <img
-                        src={b.favicon || "/placeholder-favicon.png"}
-                        alt="favicon"
-                        className="w-10 h-10 p-1 dark:bg-white sm:w-12 sm:h-12 rounded object-contain"
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = "/placeholder-favicon.png";
-                        }}
-                      />
-
-                      <h3 className="text-base sm:text-lg font-semibold break-words">
-                        {b.title}
-                      </h3>
-                    </a>
-                  </div>
-                  <div>
-                    <p className="mt-2 sm:w-100 max-w-100 overflow-hidden text-gray-600 dark:text-gray-300 text-sm">
-                      {b.summary || "No summary available."}
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <button
-                    onClick={() => deleteBookmark(b.id)}
-                    className="mt-2 sm:mt-0 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                    aria-label={`Delete bookmark ${b.title}`}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={bookmarks.map((b) => b.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <ul className="mt-6 space-y-4">
+                {bookmarks.map((b) => (
+                  <SortableItem
+                    key={b.id}
+                    bookmark={b}
+                    deleteBookmark={deleteBookmark}
+                  />
+                ))}
+              </ul>
+            </SortableContext>
+          </DndContext>
         ) : (
-          <p className="mt-6 text-center text-gray-500">No bookmarks Saved.</p>
+          <p className="mt-6 text-center text-gray-500">No bookmarks saved.</p>
         )}
       </div>
     </div>
